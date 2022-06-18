@@ -145,9 +145,36 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [BASE_DIR, 'static']
+
+# configuring the location for media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/accounts/login/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+MAPBOX_KEY=config('MAPBOX_KEY')
+
+EMAIL_USE_TLS=True
+EMAIL_HOST=config('EMAIL_HOST', cast=str)
+EMAIL_PORT=config('EMAIL_PORT',cast=int)
+EMAIL_HOST_USER=config('EMAIL_HOST_USER', cast=str)  
+EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD', cast=str)  
+
+
+# Configure Django App for Heroku.
+django_heroku.settings(locals())
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
