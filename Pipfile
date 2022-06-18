@@ -8,6 +8,10 @@ django = "*"
 python-decouple = "*"
 dj-database-url = "*"
 django-heroku = "*"
+pyuploadcare = "*"
+psycopg2 = "*"
+gunicorn = "*"
+pillow = "*"
 
 [dev-packages]
 
