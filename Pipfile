@@ -12,6 +12,8 @@ pyuploadcare = "*"
 psycopg2 = "*"
 gunicorn = "*"
 pillow = "*"
+django-registration = "*"
+django-mapbox-location-field = "*"
 
 [dev-packages]
 

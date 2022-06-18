@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "69941117d4e52c4af1ef6e11715bbb3cdd6dd896a5ec48bd2059ba2d1223b32e"
+            "sha256": "d5dc4c086b29dd5123299c1bd64a1b6cee77438f9de93af0f13ae615448c96d4"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -62,6 +62,13 @@
             "markers": "python_version >= '3.6'",
             "version": "==2022.6.15"
         },
+        "confusable-homoglyphs": {
+            "hashes": [
+                "sha256:3b4a0d9fa510669498820c91a0bfc0c327568cecec90648cf3819d4a6fc6a751",
+                "sha256:e3ce611028d882b74a5faa69e3cbb5bd4dcd9f69936da6e73d33eda42c917944"
+            ],
+            "version": "==3.2.0"
+        },
         "dj-database-url": {
             "hashes": [
                 "sha256:4aeaeb1f573c74835b0686a2b46b85990571159ffc21aa57ecd4d1e1cb334163",
@@ -85,6 +92,21 @@
             ],
             "index": "pypi",
             "version": "==0.3.1"
+        },
+        "django-mapbox-location-field": {
+            "hashes": [
+                "sha256:ca5760eac38e5ccf230730923c99e01cee963f1f84a715d3c700c5a3607966c2"
+            ],
+            "index": "pypi",
+            "version": "==2.0.0"
+        },
+        "django-registration": {
+            "hashes": [
+                "sha256:884a4cc9ec87b9f1c0ceb6b6c4b7ba491c1877997a3cd29cc923697dac785eb8",
+                "sha256:dfa176f594fb465c93495caa55686be723a15829769511383e25172d2efbd0e6"
+            ],
+            "index": "pypi",
+            "version": "==3.3"
         },
         "dnspython": {
             "hashes": [

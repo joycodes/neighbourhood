@@ -47,6 +47,11 @@ INSTALLED_APPS = [
     'pyuploadcare.dj',
 ]
 
+UPLOADCARE = {
+    'pub_key': '5ea1692a12a2e8166648',
+    'secret': '017b6c3d68252e1f589a',
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
