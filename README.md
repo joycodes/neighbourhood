@@ -11,8 +11,8 @@
 ## Description
 >This is web app that allows users to be in the loop about everything happening in their neighbourhoods. From contact information of different handymen to meeting announcements or even alerts.
 
-<!-- ![image](./static/images/loginscreen.png)
-![image](./static/images/userpic.png) -->
+![image](./static/images/hood.png)
+
 
 
 ---
