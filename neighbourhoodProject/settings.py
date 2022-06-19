@@ -162,7 +162,7 @@ LOGIN_REDIRECT_URL = '/accounts/login/'
 LOGOUT_REDIRECT_URL = '/'
 
 
-MAPBOX_KEY=config('MAPBOX_KEY')
+# MAPBOX_KEY=config('MAPBOX_KEY')
 
 EMAIL_USE_TLS=True
 EMAIL_HOST=config('EMAIL_HOST', cast=str)

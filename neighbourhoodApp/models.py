@@ -8,7 +8,7 @@ from mapbox_location_field.models import LocationField, AddressAutoHiddenField
 class Admin(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     name = models.CharField(max_length = 90, default="Fullname") 
-    profile_pic = ImageField('Profile Picture')
+    profile_pic = ImageField(manual_crop='1280x720')
 
     def __str__(self):
         return self.user.username
@@ -26,7 +26,7 @@ class Neighbourhood(models.Model):
 class Occupant(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     name = models.CharField(max_length = 90, default="Fullname")  
-    profile_pic = ImageField('Profile Picture')
+    profile_pic = ImageField(manual_crop='1280x720')
     neighbourhood = models.ForeignKey(Neighbourhood, on_delete= models.CASCADE)
     home = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"}, blank=True)
 
