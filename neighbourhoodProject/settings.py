@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'neighbourhoodApp',
     'pyuploadcare.dj',
     'mapbox_location_field',
+    'bootstrap4',
+
+
 ]
 
 UPLOADCARE = {
