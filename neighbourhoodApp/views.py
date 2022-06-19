@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from .models import NeighbourHood, Profile, Business, Post
 from .forms import UpdateProfileForm, NeighbourHoodForm, PostForm
 from django.contrib.auth.models import User
+from .email import send_welcome_email
+
 
 
 @login_required(login_url='login')
@@ -20,6 +22,11 @@ def signup(request):
             form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
+            
+            email = form.cleaned_data.get('email')
+            recipient = User(username=username, email=email)
+            send_welcome_email(username, email)
+
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect('index')
