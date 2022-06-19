@@ -1,9 +1,8 @@
 from django.contrib import admin
-from .models import Admin, Amenity, Business, Neighbourhood, Post, Occupant
+from .models import Profile, NeighbourHood, Business, Post
 
-admin.site.register(Admin)
-admin.site.register(Amenity)
+
+admin.site.register(Profile)
+admin.site.register(NeighbourHood)
 admin.site.register(Business)
-admin.site.register(Neighbourhood)
 admin.site.register(Post)
-admin.site.register(Occupant)

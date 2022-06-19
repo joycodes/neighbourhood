@@ -43,18 +43,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'neighbourhoodApp',
+    'neighbourhoodApp.',
+    'crispy_forms',
     'pyuploadcare.dj',
-    'mapbox_location_field',
-    'bootstrap4',
-
-
 ]
 
 UPLOADCARE = {
     'pub_key': '5ea1692a12a2e8166648',
     'secret': '017b6c3d68252e1f589a',
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -160,12 +160,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/accounts/login/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
 
-
-# MAPBOX_KEY=config('MAPBOX_KEY')
 
 EMAIL_USE_TLS=True
 EMAIL_HOST=config('EMAIL_HOST', cast=str)

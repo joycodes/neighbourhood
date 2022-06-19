@@ -1,39 +1,37 @@
 from django import forms
-from .models import Admin, Neighbourhood, Occupant, Business, Post, Amenity
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from .models import Profile, NeighbourHood, Business, Post
+from pyuploadcare.dj.forms import ImageField
 
-class AdminProfileForm(forms.ModelForm):
+
+class SignupForm(UserCreationForm):
+    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+
     class Meta:
-        model = Admin
-        exclude = ['user']
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
 
 
-class NeighbourhoodForm(forms.ModelForm):
+class UpdateProfileForm(forms.ModelForm):
     class Meta:
-        model = Neighbourhood
-        exclude = ['admin', 'occupants']
+        model = Profile
+        exclude = ('user', 'neighbourhood')
 
 
-class AddResidentForm(forms.Form):
-    name = forms.CharField(label='Occupant name', max_length=50)
-    username = forms.CharField(label='Username', max_length=50)
-    email = forms.EmailField()  
-
-class AmenityForm(forms.ModelForm):
+class NeighbourHoodForm(forms.ModelForm):
     class Meta:
-        model = Amenity
-        exclude = ['created', 'neighbourhood']
+        model = NeighbourHood
+        exclude = ('admin',)
 
-class ChangePasswordForm(forms.Form):
-    old_password = forms.CharField(widget=forms.PasswordInput)
-    new_password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
 
 class BusinessForm(forms.ModelForm):
     class Meta:
         model = Business
-        exclude = ['neighbourhood']
+        exclude = ('user', 'neighbourhood')
+
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ['occupant', 'post_date', 'neighbourhood']
+        exclude = ('user', 'hood')

@@ -11,12 +11,10 @@ pyuploadcare = "*"
 psycopg2 = "*"
 gunicorn = "*"
 pillow = "*"
-django-registration = "*"
-django-mapbox-location-field = "*"
+django-crispy-forms = "*"
 django = "*"
-folium = "*"
-numpy = "*"
-django-bootstrap4 = "*"
+whitenoise = "*"
+djangorestframework = "*"
 
 [dev-packages]
 

@@ -1,80 +1,79 @@
 from django.db import models
-from pyuploadcare.dj.models import ImageField
 from django.contrib.auth.models import User
-from mapbox_location_field.models import LocationField, AddressAutoHiddenField
+from pyuploadcare.dj.models import ImageField
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
-# Create your models here.
-class Admin(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
-    name = models.CharField(max_length = 90, default="Fullname") 
-    profile_pic = ImageField(manual_crop='1280x720')
-
-    def __str__(self):
-        return self.user.username
-
-class Neighbourhood(models.Model):
-    name = models.CharField(max_length = 80)
-    admin = models.ForeignKey(Admin, on_delete=models.CASCADE)
-    occupants = models.IntegerField(default=1)
-    location = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"})
-    address = AddressAutoHiddenField(blank=True)
+class NeighbourHood(models.Model):
+    name = models.CharField(max_length=50)
+    location = models.CharField(max_length=60)
+    admin = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name='hood')
+    hood_logo = models.ImageField(upload_to='images/')
+    description = models.TextField()
+    health_tell = models.IntegerField(null=True, blank=True)
+    police_number = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.name 
+        return f'{self.name} hood'
 
-class Occupant(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
-    name = models.CharField(max_length = 90, default="Fullname")  
-    profile_pic = ImageField(manual_crop='1280x720')
-    neighbourhood = models.ForeignKey(Neighbourhood, on_delete= models.CASCADE)
-    home = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"}, blank=True)
+    def create_neighborhood(self):
+        self.save()
+
+    def delete_neighborhood(self):
+        self.delete()
+
+    @classmethod
+    def find_neighborhood(cls, neighborhood_id):
+        return cls.objects.filter(id=neighborhood_id)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    name = models.CharField(max_length=80, blank=True)
+    bio = models.TextField(max_length=254, blank=True)
+    profile_picture = models.ImageField(upload_to='images/', default='default.png')
+    location = models.CharField(max_length=50, blank=True, null=True)
+    neighbourhood = models.ForeignKey(NeighbourHood, on_delete=models.SET_NULL, null=True, related_name='members', blank=True)
 
     def __str__(self):
-        return self.user.username
-        
+        return f'{self.user.username} profile'
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+
 class Business(models.Model):
-    name = models.CharField(max_length = 80)
-    definition = models.CharField(max_length = 300)
-    email = models.EmailField() 
-    location = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"})
-    neighbourhood = models.ForeignKey(Neighbourhood, on_delete= models.CASCADE)
+    name = models.CharField(max_length=120)
+    email = models.EmailField(max_length=254)
+    description = models.TextField(blank=True)
+    neighbourhood = models.ForeignKey(NeighbourHood, on_delete=models.CASCADE, related_name='business')
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='owner')
 
     def __str__(self):
-        return self.name
+        return f'{self.name} Business'
 
-    class Meta:
-        verbose_name_plural = "Businesses"
+    def create_business(self):
+        self.save()
 
-AMENITY_CHOICES = (
-    ('police','Police Post'),
-    ('hospital', 'Healthcare center'),  
-    ('school','School'),  
-)
+    def delete_business(self):
+        self.delete()
 
-class Amenity(models.Model):
-    name = models.CharField(max_length = 80)
-    category = models.CharField(max_length=50, choices=AMENITY_CHOICES)
-    location = models.CharField(max_length = 300)
-    contact = models.CharField(max_length = 100)
-    location = LocationField(map_attrs={"center": [36.82, -1.29], "marker_color": "blue"})
-    neighbourhood = models.ForeignKey(Neighbourhood, on_delete= models.CASCADE)
+    @classmethod
+    def search_business(cls, name):
+        return cls.objects.filter(name__icontains=name).all()
 
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Amenities"
 
 class Post(models.Model):
-    message = models.TextField()
-    post_date = models.DateTimeField(auto_now_add=True, null = True)
-    occupant = models.ForeignKey(User, on_delete=models.CASCADE)
-    neighbourhood = models.ForeignKey(Neighbourhood, on_delete= models.CASCADE)
-
-    def __str__(self):
-        return self.message
-
-    class Meta:
-        ordering = ['-post_date']
+    title = models.CharField(max_length=120, null=True)
+    post = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='post_owner')
+    hood = models.ForeignKey(NeighbourHood, on_delete=models.CASCADE, related_name='hood_post')
 
